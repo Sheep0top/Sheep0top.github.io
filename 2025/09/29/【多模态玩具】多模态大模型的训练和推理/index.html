@@ -1,0 +1,730 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sheep0">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、什么是多模态？通过融合多种数据模态（例如图片、音频、视频、文本等）来训练模型，从而提高模型的感知与理解能力，实现跨模态的信息交互与融合。 文本模态的表示：文本模态的表示方法有多种，如独热表示、低维空间表示（如通过神经网络模型学习得到的转换矩阵将单词或字映射到语义空间中）、词袋表示及其衍生出的n-grams词袋表示等。目前，主流的文本表示方法是预训练文本模型，如BERT。 视觉模态的表示：视觉模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【多模态玩具】多模态大模型的训练和推理">
+<meta property="og:url" content="https://blog.sheep0.top/2025/09/29/%E3%80%90%E5%A4%9A%E6%A8%A1%E6%80%81%E7%8E%A9%E5%85%B7%E3%80%91%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%AD%E7%BB%83%E5%92%8C%E6%8E%A8%E7%90%86/index.html">
+<meta property="og:site_name" content="Sheep0&#39;s blog">
+<meta property="og:description" content="一、什么是多模态？通过融合多种数据模态（例如图片、音频、视频、文本等）来训练模型，从而提高模型的感知与理解能力，实现跨模态的信息交互与融合。 文本模态的表示：文本模态的表示方法有多种，如独热表示、低维空间表示（如通过神经网络模型学习得到的转换矩阵将单词或字映射到语义空间中）、词袋表示及其衍生出的n-grams词袋表示等。目前，主流的文本表示方法是预训练文本模型，如BERT。 视觉模态的表示：视觉模">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.cdn1.vip/i/68d9ddc6bf4d9_1759108550.webp">
+<meta property="og:image" content="https://img.cdn1.vip/i/68d9de78aea5e_1759108728.webp">
+<meta property="og:image" content="https://img.cdn1.vip/i/68d9defaf1b81_1759108858.webp">
+<meta property="og:image" content="https://img.cdn1.vip/i/68d9df7d4742a_1759108989.webp">
+<meta property="og:image" content="https://img.cdn1.vip/i/68d9dfc1a949e_1759109057.webp">
+<meta property="og:image" content="https://img.cdn1.vip/i/68d9e003e82fc_1759109123.webp">
+<meta property="article:published_time" content="2025-09-29T01:49:13.000Z">
+<meta property="article:modified_time" content="2025-09-29T01:47:20.886Z">
+<meta property="article:author" content="Sheep0">
+<meta property="article:tag" content="多模态">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img.cdn1.vip/i/68d9ddc6bf4d9_1759108550.webp">
+  
+  
+  
+  <title>【多模态玩具】多模态大模型的训练和推理 - Sheep0&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.sheep0.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【多模态玩具】多模态大模型的训练和推理"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-09-29 09:49" pubdate>
+          2025年9月29日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">【多模态玩具】多模态大模型的训练和推理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、什么是多模态？"><a href="#一、什么是多模态？" class="headerlink" title="一、什么是多模态？"></a>一、什么是多模态？</h2><p>通过融合多种数据模态（例如图片、音频、视频、文本等）来训练模型，从而提高模型的感知与理解能力，实现跨模态的信息交互与融合。</p>
+<p>文本模态的表示：文本模态的表示方法有多种，如独热表示、低维空间表示（如通过神经网络模型学习得到的转换矩阵将单词或字映射到语义空间中）、词袋表示及其衍生出的n-grams词袋表示等。目前，主流的文本表示方法是预训练文本模型，如BERT。</p>
+<p>视觉模态的表示：视觉模态分为图像模态和视频模态。图像模态的表示主要通过卷积神经网络（CNN）实现，如LeNet-5、AlexNet、VGG、GoogLeNet、ResNet等。视频模态的表示则结合了图像的空间属性和时间属性，通常由CNN和循环神经网络（RNN）或长短时记忆网络（LSTM）等模型共同处理。</p>
+<p>声音模态的表示：声音模态的表示通常涉及音频信号的预处理、特征提取和表示学习等步骤，常用的模型包括深度神经网络（DNN）、卷积神经网络（CNN）和循环神经网络（RNN）等。</p>
+<h2 id="二、多模态数据如何融合？"><a href="#二、多模态数据如何融合？" class="headerlink" title="二、多模态数据如何融合？"></a>二、多模态数据如何融合？</h2><p>以图像-文本为例，常见的融合思路有两种：</p>
+<h3 id="1-统一嵌入解码器架构方法"><a href="#1-统一嵌入解码器架构方法" class="headerlink" title="1. 统一嵌入解码器架构方法"></a>1. 统一嵌入解码器架构方法</h3><div align="center" style="margin: 20px 0;">
+  <!-- 图片 -->
+  <div style="text-align: center; padding: 10px 12px;">
+    <img src="https://img.cdn1.vip/i/68d9ddc6bf4d9_1759108550.webp" srcset="/img/loading.gif" lazyload 
+         style="max-width: 350px; width: 100%; height: auto; border-radius: 8px;" />
+  </div>
+  <!-- 图注 -->
+  <div style="color: #666; font-size: 0.9em; font-family: 'Helvetica', 'Arial', sans-serif; margin-top: 8px; text-align: center;">
+    图1 统一嵌入解码器架构
+  </div>
+</div>
+
+<p>统一嵌入解码器架构方法采用单一解码器模型，类似于未经修改的 LLM 架构（例如 GPT-2 或 Llama 3.2）。在这种方法中，图像被Encoder转换为与原始文本 token 具有相同嵌入大小的 token，从而允许 LLM 在连接后同时处理文本和图像输入 token。</p>
+<div align="center" style="margin: 20px 0;">
+  <!-- 图片 -->
+  <div style="text-align: center; padding: 10px 12px;">
+    <img src="https://img.cdn1.vip/i/68d9de78aea5e_1759108728.webp" srcset="/img/loading.gif" lazyload 
+         style="max-width: 400px; width: 100%; height: auto; border-radius: 8px;" />
+  </div>
+  <!-- 图注 -->
+  <div style="color: #666; font-size: 0.9em; font-family: 'Helvetica', 'Arial', sans-serif; margin-top: 8px; text-align: center;">
+    图2 图像编码器内部架构
+  </div>
+</div>
+
+<p>图像编码器架构如上图所示，就是提取传统的预训练视觉转换器（ViT），舍去其最后的分类全连接层。Image Encoder中的Linear projection（即线性投影模块），实际上是由全连接层将256维向量的图像块投影至768维向量，实际上用卷积层会更为容易，两者也是等价的。</p>
+<p>在提取Image Encoder之后，我们还会增加一层投影模块，将图片信息最终投影至与文本词向量输出维度相匹配。就类似于文本的向量化，只是多了一步投影对齐到同一维度。</p>
+<div align="center" style="margin: 20px 0;">
+  <!-- 图片 -->
+  <div style="text-align: center; padding: 10px 12px;">
+    <img src="https://img.cdn1.vip/i/68d9defaf1b81_1759108858.webp" srcset="/img/loading.gif" lazyload 
+         style="max-width: 500px; width: 100%; height: auto; border-radius: 8px;" />
+  </div>
+  <!-- 图注 -->
+  <div style="color: #666; font-size: 0.9em; font-family: 'Helvetica', 'Arial', sans-serif; margin-top: 8px; text-align: center;">
+    图3 类比文本编码器
+  </div>
+</div>
+
+<p>最后直接将处理过后的图像信息与文本信息相拼接，输入llm中进行推理即可。</p>
+<h3 id="2-跨模态注意力架构方法"><a href="#2-跨模态注意力架构方法" class="headerlink" title="2. 跨模态注意力架构方法"></a>2. 跨模态注意力架构方法</h3><div align="center" style="margin: 20px 0;">
+  <!-- 图片 -->
+  <div style="text-align: center; padding: 10px 12px;">
+    <img src="https://img.cdn1.vip/i/68d9df7d4742a_1759108989.webp" srcset="/img/loading.gif" lazyload 
+         style="max-width: 450px; width: 100%; height: auto; border-radius: 8px;" />
+  </div>
+  <!-- 图注 -->
+  <div style="color: #666; font-size: 0.9em; font-family: 'Helvetica', 'Arial', sans-serif; margin-top: 8px; text-align: center;">
+    图4 跨模态注意力架构
+  </div>
+</div>
+
+<p>跨模态注意力架构中，则是将图片信息经过编码与投影后，加在llm中的多头注意力层中，通过交叉注意力机制进行处理。在交叉注意力机制中，图像信息提供K和V，文本信息提供Q。</p>
+<div align="center" style="margin: 20px 0;">
+  <!-- 图片 -->
+  <div style="text-align: center; padding: 10px 12px;">
+    <img src="https://img.cdn1.vip/i/68d9dfc1a949e_1759109057.webp" srcset="/img/loading.gif" lazyload
+         style="max-width: 450px; width: 100%; height: auto; border-radius: 8px;" />
+  </div>
+  <!-- 图注 -->
+  <div style="color: #666; font-size: 0.9em; font-family: 'Helvetica', 'Arial', sans-serif; margin-top: 8px; text-align: center;">
+    图5 交叉注意力机制
+  </div>
+</div>
+
+
+
+<h2 id="三、如何训练？"><a href="#三、如何训练？" class="headerlink" title="三、如何训练？"></a>三、如何训练？</h2><div align="center" style="margin: 20px 0;">
+  <!-- 图片 -->
+  <div style="text-align: center; padding: 10px 12px;">
+    <img src="https://img.cdn1.vip/i/68d9e003e82fc_1759109123.webp" srcset="/img/loading.gif" lazyload 
+         style="max-width: 600px; width: 100%; height: auto; border-radius: 8px;" />
+  </div>
+  <!-- 图注 -->
+  <div style="color: #666; font-size: 0.9em; font-family: 'Helvetica', 'Arial', sans-serif; margin-top: 8px; text-align: center;">
+    图6 多模态训练部分
+  </div>
+</div>
+
+<p>与传统纯文本 LLM 的开发类似，多模态 LLM 的训练也包含两个阶段：预训练和指令微调。然而，与从零开始不同，多模态 LLM 的训练通常以一个经过预训练和指令微调的纯文本 LLM 作为基础模型。</p>
+<p>对于图像编码器，常用CLIP编码器，并且通常在整个训练过程中保持不变（冻结参数）。在预训练阶段冻结 LLM 部分也很常见，只专注于训练投影器——一个线性层或一个小型多层感知器。鉴于投影器的学习能力有限，通常仅包含一到两层，LLM 通常会在多模态指令微调（阶段 2）期间解冻，以便进行更全面的更新。然而，在基于交叉注意力机制的模型（方法 B）中，交叉注意力层在整个训练过程中都是解冻的。</p>
+<p>统一嵌入解码器架构（方法 A）通常更容易实现，因为它不需要对 LLM 架构本身进行任何修改。</p>
+<p>跨模态注意力架构（方法 B）通常被认为具有更高的计算效率，因为它不会用额外的图像标记使输入上下文过载，而是稍后在交叉注意力层中引入它们。此外，如果 LLM 参数在训练期间保持冻结，则此方法可以保持原始 LLM 的纯文本性能。</p>
+<h2 id="四、实操"><a href="#四、实操" class="headerlink" title="四、实操"></a>四、实操</h2><p>参考LLaVa的训练方式，文本编码器选用Qwen2.5-0.5B-Instruct，图像编码器用Siglip-base-patch16-224，以问答形式的图像-文本对为训练数据。根据课设的要求，采用 <a target="_blank" rel="noopener" href="https://github.com/UCSC-VLAA/MedTrinity-25M">MedTrinity-25M</a>的Demo为数据集，仅进行预训练，不进行指令微调。</p>
+<p>由于原数据集仅包含图像与对应的Caption，因此人工添加描述性的Question，采用与LLaVa预训练阶段同款的预设问题。整个数据集有16w张图像文本对，跑一个batch其实差不多就过拟合了。</p>
+<p>训练代码参考：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> io<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> pyarrow.parquet <span class="hljs-keyword">as</span> pq<br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>, <span class="hljs-type">Dict</span>, <span class="hljs-type">Any</span><br><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> (<br>    PreTrainedModel, <br>    PretrainedConfig, <br>    AutoTokenizer, <br>    AutoModelForCausalLM,<br>    AutoProcessor, <br>    AutoModel,<br>    Trainer, <br>    TrainingArguments<br>)<br><span class="hljs-keyword">from</span> transformers.modeling_outputs <span class="hljs-keyword">import</span> CausalLMOutputWithPast<br><span class="hljs-keyword">from</span> torch.utils.data <span class="hljs-keyword">import</span> Dataset<br><span class="hljs-keyword">from</span> tqdm <span class="hljs-keyword">import</span> tqdm<br><br><span class="hljs-comment"># 定义模型配置类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">VLMConfig</span>(<span class="hljs-title class_ inherited__">PretrainedConfig</span>):<br>    model_type = <span class="hljs-string">&quot;vlm_model&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params"></span><br><span class="hljs-params">        self,</span><br><span class="hljs-params">        llm_model_path=<span class="hljs-string">&#x27;model/Qwen2.5-0.5B-Instruct&#x27;</span>,</span><br><span class="hljs-params">        vision_model_path=<span class="hljs-string">&#x27;model/siglip-base-patch16-224&#x27;</span>,</span><br><span class="hljs-params">        freeze_vision_model=<span class="hljs-literal">True</span>,</span><br><span class="hljs-params">        freeze_llm_model=<span class="hljs-literal">True</span>,</span><br><span class="hljs-params">        image_pad_num=<span class="hljs-number">49</span>,  <span class="hljs-comment"># 添加image_pad_num参数</span></span><br><span class="hljs-params">        **kwargs</span><br><span class="hljs-params">    </span>):<br>        <span class="hljs-variable language_">self</span>.vision_model_path = vision_model_path<br>        <span class="hljs-variable language_">self</span>.llm_model_path = llm_model_path<br>        <span class="hljs-variable language_">self</span>.freeze_vision_model = freeze_vision_model<br>        <span class="hljs-variable language_">self</span>.freeze_llm_model = freeze_llm_model<br>        <span class="hljs-variable language_">self</span>.image_pad_num = image_pad_num<br>        <span class="hljs-built_in">super</span>().__init__(**kwargs)<br><br><span class="hljs-comment"># 定义多模态模型</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">VLM</span>(<span class="hljs-title class_ inherited__">PreTrainedModel</span>):<br>    config_class = VLMConfig<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, config</span>):<br>        <span class="hljs-built_in">super</span>().__init__(config)<br>        <span class="hljs-variable language_">self</span>.config = config<br>        <br>        <span class="hljs-comment"># 加载视觉编码器</span><br>        <span class="hljs-variable language_">self</span>.vision_model = AutoModel.from_pretrained(<span class="hljs-variable language_">self</span>.config.vision_model_path)<br>        <span class="hljs-variable language_">self</span>.processor = AutoProcessor.from_pretrained(<span class="hljs-variable language_">self</span>.config.vision_model_path)<br>        <br>        <span class="hljs-comment"># 加载语言模型</span><br>        <span class="hljs-variable language_">self</span>.llm_model = AutoModelForCausalLM.from_pretrained(<span class="hljs-variable language_">self</span>.config.llm_model_path)<br>        <span class="hljs-variable language_">self</span>.tokenizer = AutoTokenizer.from_pretrained(<span class="hljs-variable language_">self</span>.config.llm_model_path)<br>        <br>        <span class="hljs-comment"># 确保特殊token存在</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;&lt;|image_pad|&gt;&#x27;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.tokenizer.get_vocab():<br>            <span class="hljs-variable language_">self</span>.tokenizer.add_special_tokens(&#123;<span class="hljs-string">&#x27;additional_special_tokens&#x27;</span>: [<span class="hljs-string">&#x27;&lt;|image_pad|&gt;&#x27;</span>]&#125;)<br>            <span class="hljs-variable language_">self</span>.llm_model.resize_token_embeddings(<span class="hljs-built_in">len</span>(<span class="hljs-variable language_">self</span>.tokenizer))<br>        <br>        <span class="hljs-comment"># 图像特征维度与编码器隐藏维度的关系</span><br>        vision_hidden_size = <span class="hljs-variable language_">self</span>.vision_model.config.vision_config.hidden_size<br>        llm_hidden_size = <span class="hljs-variable language_">self</span>.llm_model.config.hidden_size<br>        <br>        <span class="hljs-comment"># SiGLIP输出是(batch_size, 196, hidden_size)，需要映射到更少的tokens</span><br>        <span class="hljs-comment"># 定义投影层 - 先将196个token压缩到49个token，然后投影到LLM维度</span><br>        <span class="hljs-variable language_">self</span>.linear1 = nn.Linear(vision_hidden_size * <span class="hljs-number">4</span>, llm_hidden_size)  <span class="hljs-comment"># 196 -&gt; 49 (每4个合并)</span><br>        <span class="hljs-variable language_">self</span>.linear2 = nn.Linear(llm_hidden_size, llm_hidden_size)<br>        <br>        <span class="hljs-comment"># 冻结模型参数</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.config.freeze_vision_model:<br>            <span class="hljs-keyword">for</span> param <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.vision_model.parameters():<br>                param.requires_grad = <span class="hljs-literal">False</span><br>                <br>        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.config.freeze_llm_model:<br>            <span class="hljs-keyword">for</span> param <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.llm_model.parameters():<br>                param.requires_grad = <span class="hljs-literal">False</span><br>        <br>    <span class="hljs-comment"># def forward(self, input_ids, attention_mask=None, labels, pixel_values):</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, input_ids, labels, pixel_values, attention_mask=<span class="hljs-literal">None</span></span>):<br>        <br>        <span class="hljs-comment"># 获取文本嵌入</span><br>        text_embeds = <span class="hljs-variable language_">self</span>.llm_model.get_input_embeddings()(input_ids)<br>        <br>        <span class="hljs-comment"># 处理图像嵌入</span><br>        <span class="hljs-keyword">if</span> pixel_values <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-comment"># print(f&quot;pix is here&quot;, pixel_values.shape)</span><br>            <span class="hljs-comment"># norm = (pixel_values - 1).norm()</span><br>            <span class="hljs-comment"># print(f&quot;x is&quot;,norm)</span><br>            image_embeds = <span class="hljs-variable language_">self</span>.vision_model.vision_model(pixel_values).last_hidden_state<br>            b, s, d = image_embeds.shape<br>            <span class="hljs-comment"># 压缩图片tokens: (b, 196, d) --&gt; (b, 49, d*4)</span><br>            image_embeds = image_embeds.view(b, -<span class="hljs-number">1</span>, d*<span class="hljs-number">4</span>)<br>            image_features = <span class="hljs-variable language_">self</span>.linear2(F.silu(<span class="hljs-variable language_">self</span>.linear1(image_embeds)))<br>            <br>            <span class="hljs-comment"># 将图像特征合并到输入嵌入中</span><br>            text_embeds = text_embeds.to(image_features.dtype)<br>            inputs_embeds = <span class="hljs-variable language_">self</span>.merge_input_ids_with_image_features(image_features, text_embeds, input_ids)<br>        <span class="hljs-keyword">else</span>:<br>            inputs_embeds = text_embeds<br>        <br>        <span class="hljs-comment"># 通过语言模型</span><br>        outputs = <span class="hljs-variable language_">self</span>.llm_model(<br>            inputs_embeds=inputs_embeds,<br>            attention_mask=attention_mask,<br>            labels=labels,<br>            return_dict=<span class="hljs-literal">True</span><br>        )<br>        <br>        <span class="hljs-keyword">return</span> outputs<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">merge_input_ids_with_image_features</span>(<span class="hljs-params">self, image_features, inputs_embeds, input_ids</span>):<br>        <span class="hljs-comment"># 找到所有&lt;|image_pad|&gt;的位置</span><br>        image_pad_id = <span class="hljs-variable language_">self</span>.tokenizer.convert_tokens_to_ids(<span class="hljs-string">&#x27;&lt;|image_pad|&gt;&#x27;</span>)<br>        batch_indices, image_indices = torch.where(input_ids == image_pad_id)<br>        <br>        <span class="hljs-comment"># 获取唯一的batch_indices，以处理每个样本</span><br>        unique_batch_indices = batch_indices.unique()<br>        <br>        <span class="hljs-keyword">for</span> batch_idx <span class="hljs-keyword">in</span> unique_batch_indices:<br>            <span class="hljs-comment"># 获取当前批次的所有image_pad位置</span><br>            pad_positions = image_indices[batch_indices == batch_idx]<br>            <br>            <span class="hljs-comment"># 确保我们有足够的image_pad位置</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(pad_positions) &gt;= <span class="hljs-variable language_">self</span>.config.image_pad_num:<br>                <span class="hljs-comment"># 只使用前image_pad_num个位置</span><br>                pad_positions = pad_positions[:<span class="hljs-variable language_">self</span>.config.image_pad_num]<br>                <br>                <span class="hljs-comment"># 将image_features的每一行放入对应的image_pad位置</span><br>                <span class="hljs-keyword">for</span> i, pos <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(pad_positions):<br>                    <span class="hljs-keyword">if</span> i &lt; image_features.shape[<span class="hljs-number">1</span>]:<br>                        inputs_embeds[batch_idx, pos] = image_features[batch_idx, i]<br>        <br>        <span class="hljs-keyword">return</span> inputs_embeds<br><br><span class="hljs-comment"># 定义数据集类</span><br><span class="hljs-comment"># 不同的数据集的组织形式可能不同，作者给出的组织方式也可能与实际情况不足</span><br><span class="hljs-comment"># 最好先试试再再写Dateset！</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MedicalImageDataset</span>(<span class="hljs-title class_ inherited__">Dataset</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, data_dir, tokenizer, processor, image_pad_num=<span class="hljs-number">49</span></span>):<br>        <span class="hljs-variable language_">self</span>.data_dir = data_dir<br>        <span class="hljs-variable language_">self</span>.tokenizer = tokenizer<br>        <span class="hljs-variable language_">self</span>.processor = processor<br>        <span class="hljs-variable language_">self</span>.image_pad_num = image_pad_num<br>        <span class="hljs-variable language_">self</span>.data = []<br>        <span class="hljs-variable language_">self</span>.instructions = [<br>            <span class="hljs-string">&quot;Describe the following image in detail&quot;</span>,<br>            <span class="hljs-string">&quot;Provide a detailed description of the given image&quot;</span>,<br>            <span class="hljs-string">&quot;Give an elaborate explanation of the image you see&quot;</span>,<br>            <span class="hljs-string">&quot;Share a comprehensive rundown of the presented image&quot;</span>,<br>            <span class="hljs-string">&quot;Offer a thorough analysis of the image&quot;</span>,<br>            <span class="hljs-string">&quot;Explain the various aspects of the image before you&quot;</span>,<br>            <span class="hljs-string">&quot;Clarify the contents of the displayed image with great detail&quot;</span>,<br>            <span class="hljs-string">&quot;Characterize the image using a well-detailed description&quot;</span>,<br>            <span class="hljs-string">&quot;Break down the elements of the image in a detailed manner&quot;</span>,<br>            <span class="hljs-string">&quot;Walk through the important details of the image&quot;</span>,<br>            <span class="hljs-string">&quot;Portray the image with a rich, descriptive narrative&quot;</span>,<br>            <span class="hljs-string">&quot;Narrate the contents of the image with precision&quot;</span>,<br>            <span class="hljs-string">&quot;Analyze the image in a comprehensive and detailed manner&quot;</span>,<br>            <span class="hljs-string">&quot;Illustrate the image through a descriptive explanation&quot;</span>,<br>            <span class="hljs-string">&quot;Examine the image closely and share its details&quot;</span>,<br>            <span class="hljs-string">&quot;Write an exhaustive depiction of the given image&quot;</span><br>        ]<br>        <br>        <span class="hljs-comment"># 加载所有parquet文件</span><br>        parquet_files = [f <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> os.listdir(data_dir) <span class="hljs-keyword">if</span> f.endswith(<span class="hljs-string">&#x27;.parquet&#x27;</span>)]<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Found <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(parquet_files)&#125;</span> parquet files&quot;</span>)<br>        <br>        <span class="hljs-keyword">for</span> pq_file <span class="hljs-keyword">in</span> tqdm(parquet_files, desc=<span class="hljs-string">&quot;Loading data&quot;</span>):<br>            file_path = os.path.join(data_dir, pq_file)<br>            table = pq.read_table(file_path)<br>            df = table.to_pandas()<br>            <br>            <span class="hljs-keyword">for</span> _, row <span class="hljs-keyword">in</span> df.iterrows():<br>                <span class="hljs-comment"># 检查必要的字段是否存在</span><br>                <span class="hljs-keyword">if</span> <span class="hljs-built_in">all</span>(field <span class="hljs-keyword">in</span> row <span class="hljs-keyword">for</span> field <span class="hljs-keyword">in</span> [<span class="hljs-string">&#x27;image&#x27;</span>, <span class="hljs-string">&#x27;caption&#x27;</span>, <span class="hljs-string">&#x27;id&#x27;</span>]):<br>                    image_bytes = row[<span class="hljs-string">&#x27;image&#x27;</span>][<span class="hljs-string">&#x27;bytes&#x27;</span>] <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(row[<span class="hljs-string">&#x27;image&#x27;</span>], <span class="hljs-built_in">dict</span>) <span class="hljs-keyword">and</span> <span class="hljs-string">&#x27;bytes&#x27;</span> <span class="hljs-keyword">in</span> row[<span class="hljs-string">&#x27;image&#x27;</span>] <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span><br>                    <span class="hljs-variable language_">self</span>.data.append(&#123;<br>                        <span class="hljs-string">&#x27;image&#x27;</span>: image_bytes,  <span class="hljs-comment"># 直接存储二进制图像数据</span><br>                        <span class="hljs-string">&#x27;caption&#x27;</span>: row[<span class="hljs-string">&#x27;caption&#x27;</span>],<br>                        <span class="hljs-string">&#x27;id&#x27;</span>: row[<span class="hljs-string">&#x27;id&#x27;</span>]<br>                    &#125;)<br>                    <br>        <br>        <br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Loaded <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(self.data)&#125;</span> image-caption pairs&quot;</span>)<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__len__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(<span class="hljs-variable language_">self</span>.data)<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__getitem__</span>(<span class="hljs-params">self, idx</span>):<br>        item = <span class="hljs-variable language_">self</span>.data[idx]<br>        <br>        <span class="hljs-comment"># 随机选择一个指令</span><br>        instruction = random.choice(<span class="hljs-variable language_">self</span>.instructions)<br>        <br>        <span class="hljs-comment"># 构建提示，添加图像占位符</span><br>        prompt = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;instruction&#125;</span>\n&quot;</span> + <span class="hljs-string">&quot;&lt;|image_pad|&gt;&quot;</span> * <span class="hljs-variable language_">self</span>.image_pad_num<br>        answer = item[<span class="hljs-string">&#x27;caption&#x27;</span>]<br>        <br>        <span class="hljs-comment"># 从二进制数据加载图像</span><br>        <span class="hljs-keyword">try</span>:<br>            image = Image.<span class="hljs-built_in">open</span>(io.BytesIO(item[<span class="hljs-string">&#x27;image&#x27;</span>])).convert(<span class="hljs-string">&#x27;RGB&#x27;</span>)<br>            pixel_values = <span class="hljs-variable language_">self</span>.processor(images=image, return_tensors=<span class="hljs-string">&quot;pt&quot;</span>).pixel_values.squeeze(<span class="hljs-number">0</span>)<br>            <span class="hljs-comment"># pixel_values = self.processor(text=None, images=image, return_tensors=&quot;pt&quot;)[&#x27;pixel_values&#x27;]</span><br>            <span class="hljs-comment"># print(f&quot;shape is&quot;, pixel_values.shape)</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">type</span>(pixel_values) != torch.Tensor:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Wrong!!!!!!!!!!!!!!!!!&quot;</span>) <br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Error loading image <span class="hljs-subst">&#123;item[<span class="hljs-string">&#x27;id&#x27;</span>]&#125;</span>: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br>            <span class="hljs-comment"># 创建一个空白图像</span><br>            image = Image.new(<span class="hljs-string">&#x27;RGB&#x27;</span>, (<span class="hljs-number">224</span>, <span class="hljs-number">224</span>), color=<span class="hljs-string">&#x27;white&#x27;</span>)<br>            pixel_values = <span class="hljs-variable language_">self</span>.processor(text=<span class="hljs-literal">None</span>, images=image, return_tensors=<span class="hljs-string">&quot;pt&quot;</span>)[<span class="hljs-string">&#x27;pixel_values&#x27;</span>]<br>        <br>        <span class="hljs-comment"># 简化的对话格式构建，不依赖chat_template</span><br>        system = <span class="hljs-string">&quot;You are a helpful medical image analysis assistant.&quot;</span><br>        user_message = prompt<br>        assistant_message = answer<br>        <br>        <span class="hljs-comment"># 构建输入文本，使用简单的格式</span><br>        text = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;system&#125;</span>\n\nUser: <span class="hljs-subst">&#123;user_message&#125;</span>\n\nAssistant: <span class="hljs-subst">&#123;assistant_message&#125;</span>&quot;</span><br>        <br>        <span class="hljs-comment"># 分词</span><br>        encoding = <span class="hljs-variable language_">self</span>.tokenizer(text, return_tensors=<span class="hljs-string">&quot;pt&quot;</span>, padding=<span class="hljs-string">&quot;max_length&quot;</span>, truncation=<span class="hljs-literal">True</span>, max_length=<span class="hljs-number">512</span>)<br>        input_ids = encoding[<span class="hljs-string">&quot;input_ids&quot;</span>][<span class="hljs-number">0</span>]<br>        attention_mask = encoding[<span class="hljs-string">&quot;attention_mask&quot;</span>][<span class="hljs-number">0</span>]<br>        <br>        <span class="hljs-comment"># 构建标签：找到Assistant部分的开始位置</span><br>        assistant_start = text.find(<span class="hljs-string">&quot;Assistant: &quot;</span>)<br>        <span class="hljs-keyword">if</span> assistant_start != -<span class="hljs-number">1</span>:<br>            <span class="hljs-comment"># 计算Assistant开始前的token数量</span><br>            prefix_text = text[:assistant_start]<br>            prefix_tokens = <span class="hljs-variable language_">self</span>.tokenizer(prefix_text, add_special_tokens=<span class="hljs-literal">False</span>)[<span class="hljs-string">&quot;input_ids&quot;</span>]<br>            assistant_pos = <span class="hljs-built_in">len</span>(prefix_tokens)<br>            <span class="hljs-comment"># 可能需要加上特殊token的偏移量</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.tokenizer.bos_token_id <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>                assistant_pos += <span class="hljs-number">1</span>  <span class="hljs-comment"># 加上BOS token</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-comment"># 如果找不到，估算一个位置（大约是前半部分）</span><br>            assistant_pos = <span class="hljs-built_in">len</span>(input_ids) // <span class="hljs-number">2</span><br>            <br>        <span class="hljs-comment"># 构建标签</span><br>        labels = input_ids.clone()<br>        labels[:assistant_pos] = -<span class="hljs-number">100</span>  <span class="hljs-comment"># 用户部分标签设为-100</span><br>        <span class="hljs-comment"># print(f&quot;shape is&quot;, pixel_values.shape)</span><br>        <br>        <span class="hljs-keyword">return</span> &#123;<br>            <span class="hljs-string">&quot;input_ids&quot;</span>: input_ids,<br>            <span class="hljs-string">&quot;attention_mask&quot;</span>: attention_mask,<br>            <span class="hljs-string">&quot;labels&quot;</span>: labels,<br>            <span class="hljs-string">&quot;pixel_values&quot;</span>: pixel_values<br>        &#125;<br><br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyDataCollator</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, tokenizer</span>):<br>        <span class="hljs-variable language_">self</span>.tokenizer = tokenizer<br>        <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, features</span>):<br>        <span class="hljs-comment"># 确保所有输入都是有效的</span><br>        valid_features = []<br>        <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> features:<br>            <span class="hljs-keyword">if</span> f[<span class="hljs-string">&quot;pixel_values&quot;</span>] <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">isinstance</span>(f[<span class="hljs-string">&quot;pixel_values&quot;</span>], torch.Tensor):<br>                valid_features.append(f)<br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Warning: Skipping invalid sample with None or non-tensor pixel_values&quot;</span>)<br>        <br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> valid_features:<br>            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&quot;No valid samples in batch!&quot;</span>)<br>        <br>        <span class="hljs-comment"># 正确堆叠张量</span><br>        batch = &#123;<br>            <span class="hljs-string">&quot;input_ids&quot;</span>: torch.stack([f[<span class="hljs-string">&quot;input_ids&quot;</span>] <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> valid_features]),<br>            <span class="hljs-string">&quot;attention_mask&quot;</span>: torch.stack([f[<span class="hljs-string">&quot;attention_mask&quot;</span>] <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> valid_features]),<br>            <span class="hljs-string">&quot;labels&quot;</span>: torch.stack([f[<span class="hljs-string">&quot;labels&quot;</span>] <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> valid_features]),<br>            <span class="hljs-string">&quot;pixel_values&quot;</span>: torch.stack([f[<span class="hljs-string">&quot;pixel_values&quot;</span>] <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> valid_features])<br>        &#125;<br>        <br>        <span class="hljs-keyword">return</span> batch<br><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    <span class="hljs-comment"># 设置配置</span><br>    config = VLMConfig(<br>        llm_model_path=<span class="hljs-string">&#x27;model/Qwen2.5-0.5B-Instruct&#x27;</span>,<br>        vision_model_path=<span class="hljs-string">&#x27;model/siglip-base-patch16-224&#x27;</span>,<br>        freeze_vision_model=<span class="hljs-literal">True</span>,<br>        freeze_llm_model=<span class="hljs-literal">True</span>,<br>        image_pad_num=<span class="hljs-number">49</span><br>    )<br>    <br>    <span class="hljs-comment"># 初始化模型</span><br>    model = VLM(config)<br>    tokenizer = AutoTokenizer.from_pretrained(config.llm_model_path)<br>    processor = AutoProcessor.from_pretrained(config.vision_model_path)<br>    <br>    <span class="hljs-comment"># 确保tokenizer有需要的token</span><br>    tokenizer.add_special_tokens(&#123;<span class="hljs-string">&#x27;additional_special_tokens&#x27;</span>: [<span class="hljs-string">&#x27;&lt;|image_pad|&gt;&#x27;</span>]&#125;)<br>    <br>    <span class="hljs-comment"># 确保tokenizer有pad_token</span><br>    <span class="hljs-keyword">if</span> tokenizer.pad_token <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        tokenizer.pad_token = tokenizer.eos_token<br>    <br>    <span class="hljs-comment"># 打印可训练参数数量</span><br>    total_params = <span class="hljs-built_in">sum</span>(p.numel() <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> model.parameters())<br>    trainable_params = <span class="hljs-built_in">sum</span>(p.numel() <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> model.parameters() <span class="hljs-keyword">if</span> p.requires_grad)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;总参数量: <span class="hljs-subst">&#123;total_params&#125;</span>, 可训练参数量: <span class="hljs-subst">&#123;trainable_params&#125;</span>&quot;</span>)<br>    <br>    <span class="hljs-comment"># 创建数据集</span><br>    dataset = MedicalImageDataset(<br>        data_dir=<span class="hljs-string">&quot;data/MedTrinity&quot;</span>,<br>        tokenizer=tokenizer,<br>        processor=processor,<br>        image_pad_num=<span class="hljs-number">49</span><br>    )<br>    <br>    <span class="hljs-comment"># 训练参数</span><br>    training_args = TrainingArguments(<br>        output_dir=<span class="hljs-string">&quot;./output&quot;</span>,<br>        num_train_epochs=<span class="hljs-number">1</span>,<br>        per_device_train_batch_size=<span class="hljs-number">8</span>,<br>        gradient_accumulation_steps=<span class="hljs-number">4</span>,<br>        save_steps=<span class="hljs-number">500</span>,<br>        save_total_limit=<span class="hljs-number">2</span>,<br>        learning_rate=<span class="hljs-number">1e-4</span>,<br>        warmup_steps=<span class="hljs-number">500</span>,<br>        logging_dir=<span class="hljs-string">&quot;./logs&quot;</span>,<br>        logging_steps=<span class="hljs-number">50</span>,<br>        eval_strategy=<span class="hljs-string">&quot;no&quot;</span>,<br>        fp16=<span class="hljs-literal">True</span>,<br>        dataloader_num_workers=<span class="hljs-number">4</span>,<br>        report_to=<span class="hljs-string">&quot;tensorboard&quot;</span>,<br>    )<br>   <br>    <span class="hljs-comment"># 初始化训练器</span><br>    trainer = Trainer(<br>        model=model,<br>        args=training_args,<br>        train_dataset=dataset,<br>        data_collator=MyDataCollator(tokenizer),<br>    )<br>    <br>    <span class="hljs-comment"># 开始训练</span><br>    trainer.train()<br>    <br>    <span class="hljs-comment"># 保存模型</span><br>    trainer.save_model(<span class="hljs-string">&quot;./final_model&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;训练完成，模型已保存到 ./final_model&quot;</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br><br></code></pre></td></tr></table></figure>
+
+<p>推理代码参考：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> gradio <span class="hljs-keyword">as</span> gr<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer, AutoModelForCausalLM, AutoProcessor, AutoConfig<br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><span class="hljs-keyword">from</span> train <span class="hljs-keyword">import</span> VLMConfig, VLM<br><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">from</span> torch.nn <span class="hljs-keyword">import</span> functional <span class="hljs-keyword">as</span> F<br><br>device = <span class="hljs-string">&quot;cuda:0&quot;</span><br>processor = AutoProcessor.from_pretrained(<span class="hljs-string">&quot;model/siglip-base-patch16-224&quot;</span>)<br>tokenizer = AutoTokenizer.from_pretrained(<span class="hljs-string">&#x27;model/Qwen2.5-0.5B-Instruct&#x27;</span>)<br>AutoConfig.register(<span class="hljs-string">&quot;vlm_model&quot;</span>, VLMConfig)<br>AutoModelForCausalLM.register(VLMConfig, VLM)<br><br>pretrain_model = AutoModelForCausalLM.from_pretrained(<span class="hljs-string">&#x27;output/checkpoint-5051&#x27;</span>)<br>pretrain_model.to(device)<br><br><span class="hljs-comment"># sft_model = AutoModelForCausalLM.from_pretrained(&#x27;/home/user/wyf/train_multimodal_from_scratch/save/sft&#x27;)</span><br><span class="hljs-comment"># sft_model.to(device)</span><br><br>pretrain_model.<span class="hljs-built_in">eval</span>()<br><span class="hljs-comment"># sft_model.eval()</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate</span>(<span class="hljs-params">image_input, text_input, max_new_tokens = <span class="hljs-number">256</span>, temperature = <span class="hljs-number">0.0</span>, top_k = <span class="hljs-literal">None</span></span>):<br>    q_text = tokenizer.apply_chat_template([&#123;<span class="hljs-string">&quot;role&quot;</span>:<span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>:<span class="hljs-string">&#x27;You are a helpful medical assistant.&#x27;</span>&#125;, &#123;<span class="hljs-string">&quot;role&quot;</span>:<span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>:<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;text_input&#125;</span>\n&lt;image&gt;&#x27;</span>&#125;], \<br>            tokenize=<span class="hljs-literal">False</span>, \<br>            add_generation_prompt=<span class="hljs-literal">True</span>).replace(<span class="hljs-string">&#x27;&lt;image&gt;&#x27;</span>, <span class="hljs-string">&#x27;&lt;|image_pad|&gt;&#x27;</span>*<span class="hljs-number">49</span>)<br>    input_ids = tokenizer(q_text, return_tensors=<span class="hljs-string">&#x27;pt&#x27;</span>)[<span class="hljs-string">&#x27;input_ids&#x27;</span>]<br>    input_ids = input_ids.to(device)<br>    <span class="hljs-comment"># image = Image.open(image_input).convert(&quot;RGB&quot;)</span><br>    pixel_values = processor(text=<span class="hljs-literal">None</span>, images=image_input).pixel_values<br>    pixel_values = pixel_values.to(device)<br>    eos = tokenizer.eos_token_id<br>    s = input_ids.shape[<span class="hljs-number">1</span>]<br>    <span class="hljs-keyword">while</span> input_ids.shape[<span class="hljs-number">1</span>] &lt; s + max_new_tokens - <span class="hljs-number">1</span>:  <br>        <span class="hljs-comment"># if mode == &#x27;pretrain&#x27;:</span><br>        model = pretrain_model<br>        <span class="hljs-comment"># else:</span><br>        <span class="hljs-comment">#     model = sft_model</span><br>        inference_res = model(input_ids, <span class="hljs-literal">None</span>, pixel_values)  <br>        logits = inference_res.logits <br>        logits = logits[:, -<span class="hljs-number">1</span>, :] <br><br>        <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span>(input_ids.tolist()[<span class="hljs-number">0</span>]):  <br>            logits[:, token] /= <span class="hljs-number">1.0</span><br><br>        <span class="hljs-keyword">if</span> temperature == <span class="hljs-number">0.0</span>: <br>            _, idx_next = torch.topk(logits, k=<span class="hljs-number">1</span>, dim=-<span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">else</span>:<br>            logits = logits / temperature  <br>            <span class="hljs-keyword">if</span> top_k <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:  <br>                v, _ = torch.topk(logits, <span class="hljs-built_in">min</span>(top_k, logits.size(-<span class="hljs-number">1</span>)))<br>                logits[logits &lt; v[:, [-<span class="hljs-number">1</span>]]] = -<span class="hljs-built_in">float</span>(<span class="hljs-string">&#x27;Inf&#x27;</span>) <br><br>            probs = F.softmax(logits, dim=-<span class="hljs-number">1</span>)  <br>            idx_next = torch.multinomial(probs, num_samples=<span class="hljs-number">1</span>, generator=<span class="hljs-literal">None</span>)  <br><br>        <span class="hljs-keyword">if</span> idx_next == eos:  <br>            <span class="hljs-keyword">break</span><br><br>        input_ids = torch.cat((input_ids, idx_next), dim=<span class="hljs-number">1</span>)  <br>    <span class="hljs-keyword">return</span> tokenizer.decode(input_ids[:, s:][<span class="hljs-number">0</span>])<br><br><span class="hljs-keyword">with</span> gr.Blocks() <span class="hljs-keyword">as</span> demo:<br>    <span class="hljs-keyword">with</span> gr.Row():<br>        <span class="hljs-comment"># 上传图片</span><br>        <span class="hljs-keyword">with</span> gr.Column(scale=<span class="hljs-number">1</span>):<br>                image_input = gr.Image(<span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;pil&quot;</span>, label=<span class="hljs-string">&quot;选择图片&quot;</span>)<br>        <span class="hljs-keyword">with</span> gr.Column(scale=<span class="hljs-number">1</span>):<br>            <span class="hljs-comment"># mode = gr.Radio([&quot;pretrain&quot;, &quot;sft&quot;], label=&quot;选择模型&quot;)</span><br>            mode = <span class="hljs-string">&#x27;pretrain&#x27;</span><br>            text_input = gr.Textbox(label=<span class="hljs-string">&quot;输入文本&quot;</span>)<br>            <span class="hljs-comment"># text_output = gr.Textbox(label=&quot;输出文本&quot;)</span><br>            text_output = gr.Textbox(<br>                label=<span class="hljs-string">&quot;输出文本&quot;</span>,<br>                lines=<span class="hljs-number">10</span>,         <span class="hljs-comment"># 显示时默认有 10 行高</span><br>                max_lines=<span class="hljs-number">20</span>,     <span class="hljs-comment"># 最多扩展到 20 行（如果内容太多）</span><br>                interactive=<span class="hljs-literal">False</span> <span class="hljs-comment"># 输出一般不可编辑</span><br>            )<br>            generate_button = gr.Button(<span class="hljs-string">&quot;生成&quot;</span>)<br>            generate_button.click(generate, inputs=[image_input, text_input], outputs=text_output)<br>            <br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    demo.launch(share=<span class="hljs-literal">False</span>, server_name=<span class="hljs-string">&quot;0.0.0.0&quot;</span>, server_port=<span class="hljs-number">7891</span>)<br>    <br><br></code></pre></td></tr></table></figure>
+
+<p>实际推理肯定是过拟合的，就用了大量数据却只训练了一个projection，应付一下课设就先这样不管他了，况且本人没有医疗知识背景，无法对模型推理的结果进行人为判断，也没有找到良好的医疗背景下的指令微调数据集，就先这样了。</p>
+<p>最后把模型输出的英文Caption用外部LLM转为中文，再用脚本转为PDF报告，就能做一个医疗CT图像+文本指令控制输出医疗诊断报告的流，综设这样就完事了。</p>
+<p>参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://sebastianraschka.com/blog/2024/understanding-multimodal-llms.html">理论指导</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wyf3/llm_related/tree/main/train_multimodal_from_scratch">参考实操项目</a></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2304.08485">LLaVa’s Papper</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/UCSC-VLAA/MedTrinity-25M">数据集 MedTrinity-25M</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%A4%9A%E6%A8%A1%E6%80%81/" class="print-no-link">#多模态</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【多模态玩具】多模态大模型的训练和推理</div>
+      <div>https://blog.sheep0.top/2025/09/29/【多模态玩具】多模态大模型的训练和推理/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sheep0</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年9月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/09/24/%E3%80%90%E7%82%BC%E4%B8%B9%E7%8E%A9%E5%85%B7%E3%80%91AI%E7%BB%98%E5%9B%BELoKR%E8%AE%AD%E7%BB%83%E8%A7%92%E8%89%B2%E6%A6%82%E5%BF%B5%E7%9A%84%E5%B0%9D%E8%AF%95/" title="【炼丹玩具】AI绘图LoKR训练角色概念的尝试">
+                        <span class="hidden-mobile">【炼丹玩具】AI绘图LoKR训练角色概念的尝试</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
