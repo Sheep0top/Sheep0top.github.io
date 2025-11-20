@@ -1,0 +1,666 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sheep0">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="课程作业，感觉挺有意思的，确实也花费了自己不少时间，发到blog玩玩。 当AI开始”说谎”：马克思主义视角下的大模型幻觉你有没有试过向Deepseek提问，结果它却一本正经地胡说八道？比如，当你问他“今年诺贝尔和平奖得主是谁”时，他可能会把今年识别成2024年，还会煞有介事地把诺贝尔和平奖颁给其他人。事实上今年并非2024年，而2024年的诺贝尔和平奖得主也并非它所说的“穆尔塔扎·贝赫布迪”。从中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【马原科普】当AI开始&quot;说谎&quot;：马克思主义视角下的大模型幻觉">
+<meta property="og:url" content="https://blog.sheep0.top/2025/11/08/%E3%80%90%E9%A9%AC%E5%8E%9F%E7%A7%91%E6%99%AE%E3%80%91%E9%A9%AC%E5%85%8B%E6%80%9D%E4%B8%BB%E4%B9%89%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%BB%E8%A7%89/index.html">
+<meta property="og:site_name" content="Sheep0&#39;s blog">
+<meta property="og:description" content="课程作业，感觉挺有意思的，确实也花费了自己不少时间，发到blog玩玩。 当AI开始”说谎”：马克思主义视角下的大模型幻觉你有没有试过向Deepseek提问，结果它却一本正经地胡说八道？比如，当你问他“今年诺贝尔和平奖得主是谁”时，他可能会把今年识别成2024年，还会煞有介事地把诺贝尔和平奖颁给其他人。事实上今年并非2024年，而2024年的诺贝尔和平奖得主也并非它所说的“穆尔塔扎·贝赫布迪”。从中">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.sheep0.top/images/%E8%AF%A2%E9%97%AEDeepseek.png">
+<meta property="og:image" content="https://blog.sheep0.top/images/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%80%81%E5%9B%BE%E8%B0%B1.png">
+<meta property="og:image" content="https://blog.sheep0.top/images/%E5%B9%BB%E8%A7%89%E5%88%86%E7%B1%BB.png">
+<meta property="og:image" content="https://blog.sheep0.top/images/RLHF%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="https://blog.sheep0.top/images/RAG%E5%9B%BE%E8%A7%A3.png">
+<meta property="og:image" content="https://blog.sheep0.top/images/Agent%E5%9B%BE%E8%A7%A3.png">
+<meta property="og:image" content="https://blog.sheep0.top/images/%E7%A7%91%E6%8A%80%E4%BA%BA%E6%96%87%E5%9B%BE.jpg">
+<meta property="article:published_time" content="2025-11-08T07:10:00.000Z">
+<meta property="article:modified_time" content="2025-11-20T16:50:08.465Z">
+<meta property="article:author" content="Sheep0">
+<meta property="article:tag" content="科普">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.sheep0.top/images/%E8%AF%A2%E9%97%AEDeepseek.png">
+  
+  
+  
+  <title>【马原科普】当AI开始&#34;说谎&#34;：马克思主义视角下的大模型幻觉 - Sheep0&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.sheep0.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【马原科普】当AI开始&#34;说谎&#34;：马克思主义视角下的大模型幻觉"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-08 15:10" pubdate>
+          2025年11月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">【马原科普】当AI开始&#34;说谎&#34;：马克思主义视角下的大模型幻觉</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>课程作业，感觉挺有意思的，确实也花费了自己不少时间，发到blog玩玩。</p>
+<h2 id="当AI开始”说谎”：马克思主义视角下的大模型幻觉"><a href="#当AI开始”说谎”：马克思主义视角下的大模型幻觉" class="headerlink" title="当AI开始”说谎”：马克思主义视角下的大模型幻觉"></a><strong>当AI开始”说谎”：马克思主义视角下的大模型幻觉</strong></h2><p>你有没有试过向Deepseek提问，结果它却一本正经地胡说八道？比如，当你问他“今年诺贝尔和平奖得主是谁”时，他可能会把今年识别成2024年，还会煞有介事地把诺贝尔和平奖颁给其他人。事实上今年并非2024年，而2024年的诺贝尔和平奖得主也并非它所说的“穆尔塔扎·贝赫布迪”。从中我们不难看出，即使是最新的Deepseek模型，他也会“说谎”。</p>
+<p><img src="/images/%E8%AF%A2%E9%97%AEDeepseek.png" srcset="/img/loading.gif" lazyload alt="询问Deepseek今年诺贝尔和平奖得主"></p>
+<p>这种现象在人工智能领域有个形象的名字——<strong>“幻觉”（Hallucination）</strong>。截止至2025年，这个问题依然困扰着整个人工智能领域。在人工智能幻觉测试Vectara HHEM[1]中，即使是GPT-o4-mini、Claude-4-sonnet、DeepSeek-V3.2-Exp这样的顶级大模型，都有接近5%的幻觉率。</p>
+<h3 id="一、什么是大模型幻觉"><a href="#一、什么是大模型幻觉" class="headerlink" title="一、什么是大模型幻觉"></a><strong>一、什么是大模型幻觉</strong></h3><p>要理解大模型幻觉，我们要先了解什么是大模型。大模型通常指的是大语言模型(Large Language Models, LLMs)，它是基于深度神经网络构建的、具有海量参数的人工智能模型。这些模型通过在大规模的文本数据集上进行训练，学习语言的统计规律、语法结构，掌握大量事实知识以及推理模式，从而具备了回答问题、撰写文章与代码编程等多种能力[2]。近年来，大模型的能力在随着训练数据和模型规模的不断增大而迅速提高，他的知识也不断丰富，展现出出人意料的“智能”。</p>
+<p><img src="/images/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%94%9F%E6%80%81%E5%9B%BE%E8%B0%B1.png" srcset="/img/loading.gif" lazyload alt="大模型生态图谱（图源前瞻产业研究院）"></p>
+<p>从马克思主义哲学来看，大模型的演进过程正是<strong>量变质变规律</strong>的生动体现。量是事物的规模、程度、速度等可以用数量关系表示的规定性，质是一事物区别于其他事物的内在规定性。起初，大模型只是简单地模仿文字模式，属于量的积累阶段；当模型参数、数据规模和算力资源积累到一定“度”后，它的表现就发生了“质”的飞跃——从机械地“拼句子”，变成能“理解语义”、具备“思维逻辑”的新阶段。正如课本所说，“<strong>量变是质变的必要准备，质变是量变的必然结果</strong>”[3]。缺少了量的积累，质变就不会发生；量变达到一定程度后，必然会引起质变。</p>
+<p>然而，随着大模型能力的不断增强，人们对它的依赖也日益加深，其生成内容的可靠性问题逐渐浮现。这就引出了所谓大模型“幻觉”现象，即模型生成了看似合理却缺乏事实依据，甚至完全虚构的内容。幻觉可以被分为两类：事实性幻觉和忠实性幻觉。前者指的是生成的内容与可验证的现实事实不符，表现为事实矛盾或捏造数据，后者指的是生成内容偏离用户输入或内部逻辑矛盾[4]，如下表所示。</p>
+<p><img src="/images/%E5%B9%BB%E8%A7%89%E5%88%86%E7%B1%BB.png" srcset="/img/loading.gif" lazyload alt="大模型幻觉的分类"></p>
+<p>大模型的幻觉源于其模型架构与训练机制，同时也与其训练数据密不可分。现在的大模型往往是基于Transformer架构，通过海量文本语料训练得到的。模型学习的是文本的统计规律而非客观真理。它不能真正意义上理解世界，只是在概率上预测最有可能出现的下个词是什么。所以当它的训练数据中不包含解决问题所需的知识，或训练数据中的文本本来就是错的或过时的时候，往往会引发幻觉。</p>
+<h3 id="二、如何应对大模型幻觉"><a href="#二、如何应对大模型幻觉" class="headerlink" title="二、如何应对大模型幻觉"></a><strong>二、如何应对大模型幻觉</strong></h3><p>马克思主义认为，“<strong>实践是认识的来源，实践是认识发展的动力</strong>”[3]。由此可见，大模型幻觉本质上是脱离实践的认识偏差。大模型缺失了“实践”的过程，没有与真实世界交互的能力，所有认识都来源于二手的文本数据。而它自身只能输出文本，无法通过实践来检验与发展它自身的认识。因此解决幻觉最核心的思路便是为大模型构建“实践”基础，让它能够与真实世界交互。</p>
+<h4 id="1、在训练过程中的“实践”：-RLHF"><a href="#1、在训练过程中的“实践”：-RLHF" class="headerlink" title="1、在训练过程中的“实践”： RLHF"></a>1、在训练过程中的“实践”： RLHF</h4><p>大模型通常先是在大样本进行预训练，掌握基础的语言组织能力和事实知识，之后再进行监督微调训练(STF)，学会服从人类的指令来输出答案。在STF阶段，我们通过提供大量高质量的输入输出数据对，直接教导模型在指定的设问下，正确的回应方式。模型通过大量具体案例积累经验，逐步形成对问题的正确回应模式，从而实现对人类指令的基本遵循。然而，单纯的监督微调存在明显局限——它难以覆盖所有可能的提问场景，如果模型没有学习过用户所发出的指令，可能会造成忠实性幻觉。</p>
+<p>而在RLHF(基于人类反馈的强化学习)这一框架中，我们不再提供具体答案，而是对模型的不同回答进行偏好排序，额外训练一个奖励模型。模型通过强化学习算法，逐步调整自身行为以最大化获得的奖励[5]。这一过程用模型与奖励模型之间的交互模拟了模型与人类之间的交互。奖励模型代表着人类的偏好，模型在与奖励模型的交互中学习到了人类偏好的回答，从单一的指令学习到更广泛的人类偏好学习。大模型通过这种交互性的“实践”，在学习偏好的同时，缓解了忠实性幻觉。但过于满足用户的需求可能导致模型为了满足用户而选择“撒谎”，这又加剧了事实性幻觉[6]。</p>
+<p><img src="/images/RLHF%E7%A4%BA%E6%84%8F%E5%9B%BE.png" srcset="/img/loading.gif" lazyload alt="RLHF训练流程图（来源于人民网财经研究院）"></p>
+<h4 id="2、在推理阶段的“实践”：RAG-Agent"><a href="#2、在推理阶段的“实践”：RAG-Agent" class="headerlink" title="2、在推理阶段的“实践”：RAG&amp;Agent"></a>2、在推理阶段的“实践”：RAG&amp;Agent</h4><p>在推理阶段，检索增强生成（RAG）和智能体（Agent）技术为大模型提供了“自行实践”的能力，使其能够在生成过程中主动获取外部知识、与环境互动，从而减少事实性幻觉产生。</p>
+<p>RAG技术通过将大模型与外部知识库连接，为模型提供了接触客观实在的途径。当模型遇到知识盲区或不确定的问题时，RAG使其能够检索相关文献，并依次为生成依据，而非仅依赖训练时学到的参数化知识。这种方法体现了”<strong>一切从实际出发</strong>“的唯物主义原则，使模型的认识建立在客观事实而非主观臆测的基础上。</p>
+<p><img src="/images/RAG%E5%9B%BE%E8%A7%A3.png" srcset="/img/loading.gif" lazyload alt="RAG技术图解（图源互联网）"></p>
+<p>而Agent技术则更进一步，通过赋予大模型<strong>行动能力</strong>，使其能够在环境中<strong>主动实践</strong>。AI智能体不仅可以思考，还可以调用工具、执行代码、操作软件，从而在真实环境中检验、补充自己的认识。这一机制在一定程度上模拟了**”实践、认识、再实践、再认识”**的马克思主义认识过程。</p>
+<p><img src="/images/Agent%E5%9B%BE%E8%A7%A3.png" srcset="/img/loading.gif" lazyload alt="Agent技术图解（图源互联网）"></p>
+<h3 id="三、大模型幻觉引发的现实反思"><a href="#三、大模型幻觉引发的现实反思" class="headerlink" title="三、大模型幻觉引发的现实反思"></a><strong>三、大模型幻觉引发的现实反思</strong></h3><p>AI 的“说谎” 不只是一个技术问题，更是警醒我们始终以批判的眼光看待它。马克思主义认为，<strong>认识的真理性只有在实践中才能得到检验和发展</strong>。[3]如果我们将 AI 生成的内容当作真理，放弃我们自身的独立判断，就会陷入 “技术崇拜” 的误区。这一事实警醒着我们，无论技术迭代到何种程度，我们都要始终对AI的输出保持批判的眼光。</p>
+<p>同时，马克思主义认为，<strong>实践主体是指具有一定的主体能力、从事现实社会实践活动的人</strong>。实践的主体性就明确了人工智能无法真正意义上代替人类去实践。人工智能智能一定程度上承担人类的社会任务，但不可能真正具备自立、自主、自觉的社会活动。[3]技术只是人类实践的工具，而不是替代人的思考的存在。工具不会自己使用自己，关键在于人怎样用。</p>
+<p><img src="/images/%E7%A7%91%E6%8A%80%E4%BA%BA%E6%96%87%E5%9B%BE.jpg" srcset="/img/loading.gif" lazyload alt="图源互联网"></p>
+<p>未来，用好AI的关键在于让它服务于人的实践，而非凌驾于人的实践之上。我们可以用AI快速整合信息、提出初步方案，但必须通过人的实践检验其合理性。AI生成的方案是否符合实际需求？得出的结论是否经得起实地验证？产生的“幻觉”根源何在？只有在这样的过程中，我们才能在批判性使用中提升自身的思考深度与实践能力，实现<strong>人的自由全面发展</strong>。</p>
+<ul>
+<li><strong>参考文献</strong></li>
+</ul>
+<p>[1] VECTARA. Hughes Hallucination Evaluation Model (HHEM) Leaderboard: LLM Hallucination Leaderboard [EB&#x2F;OL]. <a target="_blank" rel="noopener" href="https://huggingface.co/spaces/vectara/leaderboard">https://huggingface.co/spaces/vectara/leaderboard</a>.</p>
+<p>[2] M. Shao, A. Basit, R. Karri and M. Shafique, “Survey of Different Large Language Model Architectures: Trends, Benchmarks, and Challenges,” in IEEE Access, vol. 12, pp. 188664-188706, 2024, doi: 10.1109&#x2F;ACCESS.2024.3482107.</p>
+<p>[3] 本书编写组.马克思主义基本原理[M].北京：高等教育出版社，2023.</p>
+<p>[4] Huang L, Yu W, Ma W, et al. A survey on hallucination in large language models: Principles, taxonomy, challenges, and open questions[J]. ACM Transactions on Information Systems, 2025, 43(2): 1-55.</p>
+<p>[5] Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C.L., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A., Schulman, J., Hilton, J., Kelton, F., Miller, L.E., Simens, M., Askell, A., Welinder, P., Christiano, P.F., Leike, J., &amp; Lowe, R.J. (2022). Training language models to follow instructions with human feedback. <em>ArXiv, abs&#x2F;2203.02155</em>.</p>
+<p>[6] Zhang, Y., Li, Y., Cui, L., Cai, D., Liu, L., Fu, T., Huang, X., Zhao, E., Zhang, Y., Chen, Y., Wang, L., Luu, A.T., Bi, W., Shi, F., &amp; Shi, S. (2023). Siren’s Song in the AI Ocean: A Survey on Hallucination in Large Language Models. <em>ArXiv, abs&#x2F;2309.01219</em>.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%A7%91%E6%99%AE/" class="print-no-link">#科普</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【马原科普】当AI开始&#34;说谎&#34;：马克思主义视角下的大模型幻觉</div>
+      <div>https://blog.sheep0.top/2025/11/08/【马原科普】马克思主义视角下的大模型幻觉/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sheep0</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/11/18/%E3%80%90%E5%B0%8F%E5%B7%A7%E6%80%9D%E3%80%91B%E7%AB%99%E8%A7%86%E9%A2%91%E4%B8%80%E9%94%AE%E6%80%BB%E7%BB%93/" title="【小巧思】B站视频一键总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【小巧思】B站视频一键总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/08/%E3%80%90%E6%9D%82%E8%B0%88%E3%80%91%E6%83%B3%E5%88%B0%E4%BB%80%E4%B9%88%E5%B0%B1%E8%AE%B0%E7%82%B9%E4%BB%80%E4%B9%88/" title="【杂谈】想到什么就记点什么">
+                        <span class="hidden-mobile">【杂谈】想到什么就记点什么</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
